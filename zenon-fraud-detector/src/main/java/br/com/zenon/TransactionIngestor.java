@@ -16,9 +16,9 @@ public class TransactionIngestor {
     public Optional<List<Transaction>> getTransactionList() {
         List<Transaction> transactions = new ArrayList<>();
         try (
-            BufferedReader br = new BufferedReader(new java.io.FileReader(PAY_SIM_BAD_DATA))
+            BufferedReader br = new BufferedReader(new java.io.FileReader(PAY_SIM))
         ) {
-            for (String line: br.lines().skip(1).limit(1000).toList()) {
+            for (String line: br.lines().skip(1).limit(50000).toList()) {
                 try {
                     transactions.add(parseTransaction(line));
                 } catch (RuntimeException e) {
@@ -27,7 +27,7 @@ public class TransactionIngestor {
             }
 
         } catch (IOException e) {
-            System.err.println("Error: File not found >> " + PAY_SIM_BAD_DATA);
+            System.err.println("Error: File not found >> " + PAY_SIM);
         }
         return Optional.of(transactions);
 

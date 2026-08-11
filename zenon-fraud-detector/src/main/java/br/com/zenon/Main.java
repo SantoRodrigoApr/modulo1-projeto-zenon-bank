@@ -1,17 +1,24 @@
 package br.com.zenon;
 
-import java.util.List;
-import java.util.Optional;
-
 public class Main {
     static void main() {
 
-        TransactionIngestor transactionIngestor = new TransactionIngestor();
-        Optional<List<Transaction>> transactionList = transactionIngestor.getTransactionList();
-        transactionList
-                .filter(list -> !list.isEmpty())
-                .orElseThrow(() -> new RuntimeException("Transaction list is empty"));
+        FraudAnalyzer fraudAnalyzer = new FraudAnalyzer();
+        System.out.print("\nTotal of fraudulent transactions: ");
+        System.out.println(fraudAnalyzer.getFraudulentTransactions().size());
+        fraudAnalyzer.getFraudulentTransactions().forEach(t ->  System.out.println(" - " + t));
 
+        System.out.println("\nThree highest fraudulent transactions:");
+        fraudAnalyzer.getThreeHighestFraudulentTransactions().forEach(t ->  System.out.println(" - " + t));
+
+        System.out.println("\nFive highest fraudulent customers:");
+        fraudAnalyzer.getFiveHighestSuspiciousCustomers().forEach(t ->  System.out.println(" - " + t));
+
+        System.out.print("\nTotal loss on frauds: ");
+        System.out.println(fraudAnalyzer.getTotalLossOnFrauds());
+
+        System.out.println("\nTotal fraud per transaction type:");
+        fraudAnalyzer.getFraudPerTransacionType().forEach(t ->  System.out.println(" - " + t));
 
 //        Transaction t1 = new Transaction(
 //                1, Transaction.Type.PAYMENT, new BigDecimal("9839.64"), "C1231006815"
