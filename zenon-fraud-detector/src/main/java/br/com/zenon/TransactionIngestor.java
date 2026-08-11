@@ -18,7 +18,7 @@ public class TransactionIngestor {
         try (
             BufferedReader br = new BufferedReader(new java.io.FileReader(PAY_SIM))
         ) {
-            for (String line: br.lines().skip(1).limit(50000).toList()) {
+            for (String line: br.lines().skip(1).limit(100000).toList()) {
                 try {
                     transactions.add(parseTransaction(line));
                 } catch (RuntimeException e) {
