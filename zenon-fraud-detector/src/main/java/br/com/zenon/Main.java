@@ -1,13 +1,16 @@
 package br.com.zenon;
 
+import java.util.List;
+import java.util.Optional;
+
 public class Main {
     static void main() {
 
         TransactionIngestor transactionIngestor = new TransactionIngestor();
-        transactionIngestor.getTransactionList().forEach(System.out::println);
-
-
-
+        Optional<List<Transaction>> transactionList = transactionIngestor.getTransactionList();
+        transactionList
+                .filter(list -> !list.isEmpty())
+                .orElseThrow(() -> new RuntimeException("Transaction list is empty"));
 
 
 //        Transaction t1 = new Transaction(
