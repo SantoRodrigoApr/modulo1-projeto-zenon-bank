@@ -1,0 +1,2 @@
+VM Options:
+ - -Xmx128m (litmits heap size)

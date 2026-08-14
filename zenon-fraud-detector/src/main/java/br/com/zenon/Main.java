@@ -5,11 +5,15 @@ import java.math.BigDecimal;
 public class Main {
     static void main() {
 
-        taskSixMethodA();
-        taskSixMethodB();
+        taskSevenMethod();
 
     }
     private static TransactionRepository transactionRepository;
+
+    private static void taskSevenMethod() {
+
+        taskSixMethodA();
+    }
 
     private static void taskSixMethodB() {
         transactionRepository = new TransactionMapRepository();

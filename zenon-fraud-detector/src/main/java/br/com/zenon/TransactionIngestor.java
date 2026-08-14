@@ -1,10 +1,14 @@
 package br.com.zenon;
 
+import javax.swing.text.html.HTMLDocument;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
+import java.util.stream.Stream;
 
 public class TransactionIngestor {
 
@@ -25,12 +29,14 @@ public class TransactionIngestor {
                     System.err.println("Error: " + line + " >> " + e.getMessage());
                 }
             }
-
         } catch (IOException e) {
             System.err.println("Error: File not found >> " + PAY_SIM);
         }
         return Optional.of(transactions);
+    }
 
+    public Path getPaySimPath() {
+        return Path.of(PAY_SIM);
     }
 
 
