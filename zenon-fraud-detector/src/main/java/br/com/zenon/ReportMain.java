@@ -10,7 +10,7 @@ public class ReportMain {
     static void main() {
         Path path = new TransactionIngestor().getPaySimPath();
 
-        StringBuilder result =  TransactionReport.generateTotalsReport(path);
+        StringBuilder result =  TransactionReport.generateTotalsReport(path, Language.PT_BR);
 
         System.out.println(result);
 

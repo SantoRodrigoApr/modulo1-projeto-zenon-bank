@@ -1,6 +1,13 @@
 package br.com.zenon;
 
 import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class Main {
     static void main() {
@@ -12,7 +19,30 @@ public class Main {
 
     private static void taskSevenMethod() {
 
-        taskSixMethodA();
+        System.out.println(Locale.getDefault());
+        System.out.println();
+        DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL);
+        Locale localeUS = Locale.US;
+        Locale localeBR = Locale.of("pt", "BR");
+
+        System.out.println(formatter.format(ZonedDateTime.now()));
+        System.out.println(formatter.withLocale(localeUS).format(ZonedDateTime.now()));
+        System.out.println(formatter.withLocale(localeBR).format(ZonedDateTime.now()));
+
+        System.out.println(NumberFormat.getCurrencyInstance().format(123456.78));
+        System.out.println(NumberFormat.getCurrencyInstance(localeUS).format(123456.78));
+        System.out.println(NumberFormat.getCurrencyInstance(localeBR).format(123456.78));
+
+        System.out.println("\n > > > Resource Bundle\n");
+
+        ResourceBundle message = ResourceBundle.getBundle("mensagens");
+        ResourceBundle messageBR = ResourceBundle.getBundle("mensagens", localeBR);
+        ResourceBundle messageUS = ResourceBundle.getBundle("mensagens", localeUS);
+
+        System.out.println(message.getString("report.total.transactions"));
+        System.out.println(messageBR.getString("report.total.transactions"));
+        System.out.println(messageUS.getString("report.total.transactions"));
+
     }
 
     private static void taskSixMethodB() {
