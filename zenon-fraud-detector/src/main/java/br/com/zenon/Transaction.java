@@ -12,4 +12,18 @@ public record Transaction(
         CASH_IN, CASH_OUT, DEBIT, PAYMENT, TRANSFER
     }
 
+    @Override
+    public String toString() {
+        return step +
+                ", " + type +
+                ", " + amount +
+                ", " + nameOrigin +
+                ", " + oldBalanceOrig +
+                ", " + newBalanceOrig +
+                ", " + nameDest +
+                ", " + oldBalanceDest +
+                ", " + newBalanceDest +
+                ", " + isFraud +
+                ", " + isFlaggedFraud;
+    }
 }

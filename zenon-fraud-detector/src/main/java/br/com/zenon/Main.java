@@ -1,21 +1,65 @@
 package br.com.zenon;
 
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.text.NumberFormat;
-import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class Main {
     static void main() {
 
-        taskSevenMethod();
+        Long initialTime = System.currentTimeMillis();
+
+        String header =
+                "step" + ", type" + ", amount" + ", nameOrigin" +
+                ", oldBalanceOrig" + ", newBalanceOrig" + ", nameDest" +
+                ", oldBalanceDest" + ", newBalanceDest" + ", isFraud" + ", isFlaggedFraud\n";
+
+
+        TransactionSQLRepository transactionSQLRepository = new TransactionSQLRepository();
+        Transaction transaction = transactionSQLRepository.findByOriginName("C1231006815")
+                .orElseThrow(() -> new RuntimeException("Transaction not found for custumner C1231006815"));
+        System.out.println(transaction);
+
+        try  {
+            Path file = Path.of("Test.xlsx");
+            Files.writeString(
+                    file,
+                    header + transaction.toString() + "\n",
+                    StandardOpenOption.APPEND
+//                    StandardOpenOption.TRUNCATE_EXISTING
+            );
+
+        } catch (IOException ioe) {
+            System.err.println("Error: " + ioe.getMessage());
+        }
+
+        Long endTime = System.currentTimeMillis();
+        System.out.println("Execution time (ms): " + (endTime - initialTime));
 
     }
     private static TransactionRepository transactionRepository;
+
+    private static void taskEightMethod() {
+        TransactionIngestor transactionIngestor = new TransactionIngestor();
+        List<Transaction> listTransaction = transactionIngestor.getTransactionList()
+                .orElseThrow(() -> new RuntimeException("Transaction list is empty"));
+        listTransaction
+                .stream()
+                .map(Transaction::nameOrigin)
+                .map(String::length)
+                .max(Comparator.comparing(Integer::valueOf
+                )).ifPresent(m -> System.out.println("Max: " + m));
+    }
 
     private static void taskSevenMethod() {
 
@@ -49,7 +93,7 @@ public class Main {
         transactionRepository = new TransactionMapRepository();
         System.out.println();
         long beginningTime = System.nanoTime();
-        transactionRepository.getTransactionByCustomerName("C1868032458")
+        transactionRepository.findByOriginName("C1868032458")
                 .ifPresentOrElse(
                         System.out::print,
                         () -> System.out.println("Transaction not found for custumner C1868032458")
@@ -62,13 +106,13 @@ public class Main {
     private static void taskSixMethodA() {
         transactionRepository = new TransactionListRepository();
         System.out.println();
-        transactionRepository.getTransactionByCustomerName("C12345")
+        transactionRepository.findByOriginName("C12345")
                 .ifPresentOrElse(
                     System.out::print,
                     () -> System.out.println("Transaction not found for custumner C12345")
                 );
         long beginningTime = System.nanoTime();
-        transactionRepository.getTransactionByCustomerName("C1868032458")
+        transactionRepository.findByOriginName("C1868032458")
                 .ifPresentOrElse(
                     System.out::print,
                     () -> System.out.println("Transaction not found for custumner C1868032458")

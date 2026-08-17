@@ -4,9 +4,9 @@ import java.util.Optional;
 
 public interface TransactionRepository {
 
-    Optional<Transaction> getTransactionByCustomerName(String customerName);
+    Optional<Transaction> findByOriginName(String customerName);
 
-
+    void addTransaction(Transaction transaction);
 
 
 }

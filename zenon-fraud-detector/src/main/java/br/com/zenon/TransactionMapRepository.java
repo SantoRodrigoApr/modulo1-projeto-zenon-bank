@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 public class TransactionMapRepository implements TransactionRepository {
 
     @Override
-    public Optional<Transaction> getTransactionByCustomerName(String customerName) {
+    public Optional<Transaction> findByOriginName(String customerName) {
         Map<String, Transaction> transactionMap = new TransactionIngestor()
                 .getTransactionList().orElseThrow(() -> new RuntimeException("Transaction list is empty"))
                 .stream()
@@ -17,4 +17,10 @@ public class TransactionMapRepository implements TransactionRepository {
                 ));
         return Optional.of(transactionMap.get(customerName));
     }
+
+    @Override
+    public void addTransaction(Transaction transaction) {
+
+    }
+
 }

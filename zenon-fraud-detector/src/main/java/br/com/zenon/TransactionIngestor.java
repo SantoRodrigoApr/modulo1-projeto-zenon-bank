@@ -17,12 +17,30 @@ public class TransactionIngestor {
     private final String PAY_SIM_BAD_DATA =
             "C:\\Data\\Datasets\\Academic\\JavaElite\\JavaFundamentals\\PaySim-Fraud-Detection\\raw\\paysim_with_bad_data.txt";
 
+    public Optional<List<Transaction>> getTransactionList(int limit) {
+        List<Transaction> transactions = new ArrayList<>();
+        try (
+                BufferedReader br = new BufferedReader(new java.io.FileReader(PAY_SIM))
+        ) {
+            for (String line: br.lines().skip(1).limit(limit).toList()) {
+                try {
+                    transactions.add(parseTransaction(line));
+                } catch (RuntimeException e) {
+                    System.err.println("Error: " + line + " >> " + e.getMessage());
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error: File not found >> " + PAY_SIM);
+        }
+        return Optional.of(transactions);
+    }
+
     public Optional<List<Transaction>> getTransactionList() {
         List<Transaction> transactions = new ArrayList<>();
         try (
-            BufferedReader br = new BufferedReader(new java.io.FileReader(PAY_SIM))
+                BufferedReader br = new BufferedReader(new java.io.FileReader(PAY_SIM))
         ) {
-            for (String line: br.lines().skip(1).limit(100000).toList()) {
+            for (String line: br.lines().skip(1).limit(1000).toList()) {
                 try {
                     transactions.add(parseTransaction(line));
                 } catch (RuntimeException e) {

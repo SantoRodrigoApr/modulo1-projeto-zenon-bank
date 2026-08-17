@@ -6,7 +6,7 @@ import java.util.Optional;
 public class TransactionListRepository implements TransactionRepository {
 
     @Override
-    public Optional<Transaction> getTransactionByCustomerName(String customerName) {
+    public Optional<Transaction> findByOriginName(String customerName) {
         return new TransactionIngestor()
                 .getTransactionList().orElseThrow(() -> new RuntimeException("Transaction list is empty"))
                 .stream()
@@ -14,7 +14,10 @@ public class TransactionListRepository implements TransactionRepository {
                 .findAny();
     }
 
+    @Override
+    public void addTransaction(Transaction transaction) {
 
+    }
 
 
 }
